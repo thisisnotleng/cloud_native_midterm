@@ -1,0 +1,20 @@
+{
+  "name": "vehicle-renting-microservices",
+  "version": "1.0.0",
+  "description": "Cloud Native Midterm Project - Vehicle Renting System",
+  "type": "module",
+  "scripts": {
+    "install:all": "npm install --prefix api-gateway && npm install --prefix auth-service && npm install --prefix owner-service && npm install --prefix customer-service && npm install --prefix payment-service && npm install --prefix review-service",
+    "gateway": "npm start --prefix api-gateway",
+    "auth": "npm start --prefix auth-service",
+    "owner": "npm start --prefix owner-service",
+    "customer": "npm start --prefix customer-service",
+    "payment": "npm start --prefix payment-service",
+    "review": "npm start --prefix review-service",
+    "dev": "concurrently \"npm run auth\" \"npm run owner\" \"npm run customer\" \"npm run payment\" \"npm run review\" \"npm run gateway\""
+  },
+  "dependencies": {
+    "concurrently": "10.0.3"
+  },
+  "devDependencies": {}
+}

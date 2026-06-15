@@ -1,0 +1,48 @@
+services:
+  api-gateway:
+    build: ./api-gateway
+    env_file: .env
+    environment:
+      AUTH_SERVICE_URL: http://auth-service:3001
+      OWNER_SERVICE_URL: http://owner-service:3002
+      CUSTOMER_SERVICE_URL: http://customer-service:3003
+      PAYMENT_SERVICE_URL: http://payment-service:3004
+      REVIEW_SERVICE_URL: http://review-service:3005
+    ports:
+      - "3000:3000"
+    depends_on:
+      - auth-service
+      - owner-service
+      - customer-service
+      - payment-service
+      - review-service
+
+  auth-service:
+    build: ./auth-service
+    env_file: .env
+    expose:
+      - "3001"
+
+  owner-service:
+    build: ./owner-service
+    env_file: .env
+    expose:
+      - "3002"
+
+  customer-service:
+    build: ./customer-service
+    env_file: .env
+    expose:
+      - "3003"
+
+  payment-service:
+    build: ./payment-service
+    env_file: .env
+    expose:
+      - "3004"
+
+  review-service:
+    build: ./review-service
+    env_file: .env
+    expose:
+      - "3005"

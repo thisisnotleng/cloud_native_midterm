@@ -48,7 +48,7 @@ for (const [path, targets] of Object.entries(services)) {
     target: targets[0],
     router: nextTarget,
     changeOrigin: true,
-    pathRewrite: { [`^${path}`]: path }
+    pathRewrite: (_proxyPath, req) => req.originalUrl
   }));
 }
 

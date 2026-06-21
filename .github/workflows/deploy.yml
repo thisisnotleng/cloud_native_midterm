@@ -83,7 +83,15 @@ jobs:
             scp -i ~/.ssh/ec2_key -o StrictHostKeyChecking=no "${ENV_FILE}" "${EC2_USER}@${HOST}:${APP_DIR}/.env"
 
             ssh -i ~/.ssh/ec2_key -o StrictHostKeyChecking=no "${EC2_USER}@${HOST}" \
-              "cd ${APP_DIR} && tar -xzf app.tar.gz && if docker compose version >/dev/null 2>&1; then COMPOSE='docker compose'; else COMPOSE='docker-compose'; fi && \$COMPOSE up -d --build ${SERVICES} && \$COMPOSE ps"
+              "cd ${APP_DIR} && tar -xzf app.tar.gz && \
+              if docker compose version >/dev/null 2>&1; then \
+                docker compose up -d --build ${SERVICES} && docker compose ps; \
+              elif command -v docker-compose >/dev/null 2>&1; then \
+                docker-compose up -d --build ${SERVICES} && docker-compose ps; \
+              else \
+                echo 'Docker Compose is not installed on the deployment server.' >&2; \
+                exit 127; \
+              fi"
           }
 
           deploy "$EC2_1" /tmp/gateway.env "api-gateway auth-service"
